@@ -59,9 +59,15 @@ div.tooltip a {
   stroke-width: .5px;
   stroke-opacity: .5;
 }
+
 .equator {
   stroke: #ccc;
   stroke-width: 1px;
+}
+
+button {
+  padding-bottom: 10px;
+  font-size: 1.5rem;
 }
 
 </style>
@@ -69,6 +75,9 @@ div.tooltip a {
 <body>
 
 <div id="map"></div>
+<button id="zoom_in">+</button>
+<button id="zoom_out">-</button>
+
 
 <script src="http://d3js.org/d3-selection.v1.js"></script>
 <script src="http://d3js.org/d3-path.v1.js"></script>

@@ -15,8 +15,27 @@ var tooltip = d3.select("#map").append("div").attr("class", "tooltip hidden");
 
 setup(width,height);
 
+var mapZoom = d3.zoom().on("zoom", freeZoom);
+
+function freeZoom() {
+    map.attr("transform", d3.event.transform);
+}
+
+d3.select("#reset").on("click", function() {
+    svg.transition().duration(500).call(mapZoom.transform, d3.zoomIdentity);
+});
+
+d3.select("#zoom_in").on("click", function() {
+    mapZoom.scaleBy(svg.transition().duration(500), 1.1);
+});
+
+d3.select("#zoom_out").on("click", function() {
+    mapZoom.scaleBy(svg.transition().duration(500), 0.9);
+});
+
 //initial setup
 function setup(width,height){
+
   //Try d3.geoWinkel3() / d3.geoMercator() / d3.geoNaturalEarth1() / d3.geoTimes()
   projection =  d3.geoWinkel3()
     .translate([(width/2), (height/scaleSetting)])
@@ -91,10 +110,10 @@ function draw(topo, activeCountries, coastline) {
   var offsetT =document.getElementById('map').offsetTop+(height/60);
 
   if (windowWidth > 752) {
-
+    console.log (activeCountry);
     activeCountry
       .on("mousemove", function(d,i) {
-          console.log ("mouse");
+
           var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
             tooltip
               .classed("hidden", false)
