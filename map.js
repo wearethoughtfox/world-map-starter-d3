@@ -10,8 +10,21 @@ var scaleSetting = 1.6;
 var mapHeightWidthRatio = 0.602;
 var width = document.getElementById('map').offsetWidth-padding;
 var height = width * mapHeightWidthRatio;
-var activeCountries, topo, borders, coastline, projection, path, svg, g;
+var activeCountries, topo, borders, coastline, projection, path, svg, map;
 var tooltip = d3.select("#map").append("div").attr("class", "tooltip hidden");
+var mapZoom = d3.zoom().on("zoom", freeZoom);
+
+function freeZoom() {
+  map.attr("transform", d3.event.transform);
+}
+
+d3.select("#zoom_in").on("click", function() {
+  mapZoom.scaleBy(svg.transition().duration(500), 1.1);
+});
+
+d3.select("#zoom_out").on("click", function() {
+  mapZoom.scaleBy(svg.transition().duration(500), 0.9);
+});
 
 setup(width,height);
 
@@ -30,9 +43,9 @@ function setup(width,height){
       .append("svg")
       .attr("width", width)
       .attr("height", height)
-      .append("g");
+      .call(mapZoom);
 
-  g = svg.append("g");
+  map = svg.append("g");
 }
 
 var promises = [];
@@ -68,16 +81,16 @@ function ready(data) {
 
 function draw(topo, activeCountries, coastline) {
 
-  var activeCountry = g.selectAll(".activeCountry").data(activeCountries);
+  var activeCountry = map.selectAll(".activeCountry").data(activeCountries);
 
-   g.selectAll(".country")
+   map.selectAll(".country")
         .data(topo)
         .enter().append("path")
         .attr("class", "country")
         .attr("id", function(d) { return d.id; })
         .attr("d", path);
 
-   g.insert("path", ".graticule")
+   map.insert("path", ".graticule")
       .datum(coastline)
       .attr("class","coastline")
       .attr("d", path);
