@@ -7,31 +7,13 @@ var windowWidth = window.innerWidth;
 // Set the height and width
 var padding = 5;
 var scaleSetting = 1.6;
-var scaleSetting2 = 0.602;
+var mapHeightWidthRatio = 0.602;
 var width = document.getElementById('map').offsetWidth-padding;
-var height = width * scaleSetting2;
+var height = width * mapHeightWidthRatio;
 var activeCountries, topo, borders, coastline, projection, path, svg, g;
 var tooltip = d3.select("#map").append("div").attr("class", "tooltip hidden");
 
 setup(width,height);
-
-var mapZoom = d3.zoom().on("zoom", freeZoom);
-
-function freeZoom() {
-    map.attr("transform", d3.event.transform);
-}
-
-d3.select("#reset").on("click", function() {
-    svg.transition().duration(500).call(mapZoom.transform, d3.zoomIdentity);
-});
-
-d3.select("#zoom_in").on("click", function() {
-    mapZoom.scaleBy(svg.transition().duration(500), 1.1);
-});
-
-d3.select("#zoom_out").on("click", function() {
-    mapZoom.scaleBy(svg.transition().duration(500), 0.9);
-});
 
 //initial setup
 function setup(width,height){
