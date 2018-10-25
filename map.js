@@ -30,6 +30,26 @@ d3.select("#zoom_out").on("click", function() {
   mapZoom.scaleBy(svg.transition().duration(500), 0.9);
 });
 
+function removeLoadingScreen() {
+  var loadingScreenEl = document.getElementById('loading');
+
+  if (!loadingScreenEl) {
+    return;
+  }
+
+  if(typeof loadingScreenEl.style['transition'] !== 'undefined') {
+    loadingScreenEl && loadingScreenEl.addEventListener('transitionend', function () {
+      loadingScreenEl.parentNode.removeChild(loadingScreenEl);
+    });
+
+    loadingScreenEl.style.opacity = '0';
+  }
+
+  else {
+    loadingScreenEl.parentNode.removeChild(loadingScreenEl);
+  }
+}
+
 setup(width,height);
 
 //initial setup
@@ -82,6 +102,7 @@ function ready(data) {
   });
 
   draw(topo, activeCountries, coastline);
+  removeLoadingScreen();
 }
 
 function draw(topo, activeCountries, coastline) {
