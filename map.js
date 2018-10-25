@@ -47,7 +47,8 @@ function setup(width,height){
       .append("svg")
       .attr("width", width)
       .attr("height", height)
-      .call(mapZoom);
+      .call(mapZoom)
+      .on("wheel.zoom", null); // disable scroll zoom
 
   map = svg.append("g");
 }
