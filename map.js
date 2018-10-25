@@ -75,8 +75,8 @@ function setup(width,height){
 
 var promises = [];
 
-promises.push(d3.json("data/world-topo.json"));
-promises.push(d3.csv("data/active.csv"));
+promises.push(d3.json("data/world-topo.json?cachebust="+(+new Date())));
+promises.push(d3.csv("data/active.csv?cachebust="+(+new Date())));
 
 Promise.all(promises)
 .then(ready)
