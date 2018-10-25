@@ -12,7 +12,11 @@ var width = document.getElementById('map').offsetWidth-padding;
 var height = width * mapHeightWidthRatio;
 var activeCountries, topo, borders, coastline, projection, path, svg, map;
 var tooltip = d3.select("#map").append("div").attr("class", "tooltip hidden");
-var mapZoom = d3.zoom().on("zoom", freeZoom);
+var mapZoom = d3.zoom()
+              .scaleExtent([1, 8])
+              //.translateExtent([[0,0], [width, height]])
+              //.extent([[0, 0], [width, height]])
+              .on("zoom", freeZoom);
 
 function freeZoom() {
   map.attr("transform", d3.event.transform);
