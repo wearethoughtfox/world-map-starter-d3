@@ -73,8 +73,8 @@ function setup(width,height){
   map = svg.append("g");
 }
 
+//load data
 var promises = [];
-
 promises.push(d3.json("data/world-topo.json?cachebust="+(+new Date())));
 promises.push(d3.csv("data/active.csv?cachebust="+(+new Date())));
 
@@ -131,33 +131,14 @@ function draw(topo, activeCountries, coastline) {
   var offsetT =document.getElementById('map').offsetTop+(height/60);
 
   if (windowWidth > 752) {
-    console.log (activeCountry);
-    activeCountry
-      .on("mousemove", function(d,i) {
-
-          var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
-            tooltip
-              .classed("hidden", false)
-              .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-              .html('<a href="'+ d.url + '">' + d.name + '</a>');
-          })
-          .on("mouseout",  function(d,i) {
-            tooltip.classed("hidden", true);
-          });
 
     //when you click on a country go to the member page
-    activeCountry.on('click', function(d){ window.location = d.url;});
+    activeCountry.on('click', function(d){
+      window.location = d.url;
+      console.log ("Country clicked");
+    });
 
-    activeCountry
-      .on("mouseover", function() {
-        d3.select(this)
-          .classed("active", true);
-        })
-      .on("mouseout",  function() {
-        d3.select(this)
-          .classed("active", false);
-        });
-     }
+  }
 
 }
 
